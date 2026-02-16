@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Forecast</title>
+</head>
+
+<body>
+  <div id="app">
+    <header class="app-header">
+      <div class="location-bar">
+        <h1 id="location-name">Loading...</h1>
+        <form id="search-form">
+          <input type="text" id="search-input" placeholder="Search City or Zip" required />
+          <button type="submit" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </form>
+      </div>
+  </div>
+  </header>
+
+  <main class="forecast-container">
+    <!-- Top Row: Daily Summary -->
+    <div id="daily-summary" class="daily-summary">
+      <!-- Loading skeleton (hidden after data loads) -->
+      <div class="loading-skeleton">
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+        <div class="skeleton-day-card"></div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div id="charts-wrapper" class="charts-wrapper">
+      <!-- Continuous time line (drawn via JS) -->
+      <div id="current-time-line" class="current-time-line" style="display: none;"></div>
+      <!-- Continuous crosshair line (drawn via JS on hover) -->
+      <div id="crosshair-line" class="crosshair-line" style="display: none;"></div>
+
+      <!-- Loading skeleton for charts -->
+      <div class="loading-skeleton charts-skeleton">
+        <div class="skeleton-chart"></div>
+        <div class="skeleton-chart"></div>
+        <div class="skeleton-chart"></div>
+        <div class="skeleton-chart"></div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="tempChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="atmosphereChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="precipAmountChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="windChart"></canvas>
+      </div>
+    </div>
+  </main>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
