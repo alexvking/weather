@@ -17,6 +17,9 @@ let charts = [];
 
 export function renderHeader(locationData) {
     document.getElementById('location-name').textContent = `${locationData.name}, ${locationData.admin1 || ''} ${locationData.country_code || ''}`;
+    if (locationData.elevation !== undefined) {
+        document.getElementById('elevation').textContent = `Elev: ${locationData.elevation}ft`;
+    }
     document.title = `${locationData.name} Weather`;
 }
 
@@ -199,6 +202,7 @@ export function renderCharts(hourlyData, utcOffsetSeconds = 0) {
         },
         plugins: {
             legend: {
+                display: !document.body.classList.contains('ultra-dense'),
                 position: 'top',
                 align: 'end',
                 labels: { boxWidth: 12, usePointStyle: true }

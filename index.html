@@ -13,6 +13,7 @@
     <header class="app-header">
       <div class="location-bar">
         <h1 id="location-name">Loading...</h1>
+        <span id="elevation"></span>
         <form id="search-form">
           <input type="text" id="search-input" placeholder="Search City or Zip" required />
           <button type="submit" aria-label="Search">
@@ -27,7 +28,7 @@
   </div>
   </header>
 
-  <main class="forecast-container">
+  <main id="forecast-container" class="forecast-container">
     <!-- Top Row: Daily Summary -->
     <div id="daily-summary" class="daily-summary">
       <!-- Loading skeleton (hidden after data loads) -->
@@ -74,6 +75,15 @@
       </div>
     </div>
   </main>
+
+  <!-- Mobile Viewport Preview Bar -->
+  <div id="viewport-preview-container" class="viewport-preview-container">
+    <div id="preview-bar-wrapper" class="preview-bar-wrapper">
+      <canvas id="preview-sparkline"></canvas>
+      <div id="viewport-handle" class="viewport-handle"></div>
+    </div>
+  </div>
+
   </div>
   <script type="module" src="/src/main.js"></script>
 </body>

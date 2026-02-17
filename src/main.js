@@ -2,9 +2,16 @@
 import './style.css';
 import { geoCode, getWeather } from './api.js';
 import { renderHeader, renderDailyForecast, renderCharts } from './ui.js';
+import { initViewportPreview } from './viewport-preview.js';
 
 // Performance profiling
 performance.mark('page-start');
+
+// Feature Flag: Ultra-Dense Mobile View
+const USE_ULTRA_DENSE = true;
+if (USE_ULTRA_DENSE) {
+  document.body.classList.add('ultra-dense');
+}
 
 // Hide skeleton and show content
 function hideLoadingSkeletons() {
@@ -118,6 +125,40 @@ function updateContinuousLines(hourlyData, utcOffsetSeconds) {
     });
   };
 
+  // 3. Touch Interactions for Crosshair (No Pan)
+  const handleTouch = (e) => {
+    const rect = firstChartCanvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    const xRel = touch.clientX - rect.left;
+
+    const xValue = xScale.getValueForPixel(xRel);
+    const dataIndex = Math.round(xValue);
+
+    if (dataIndex >= 0 && dataIndex < hourlyData.time.length) {
+      const xSnap = xScale.getPixelForValue(dataIndex);
+      crosshairLine.style.left = `${xSnap}px`;
+      crosshairLine.style.display = 'block';
+
+      const allCharts = getAllCharts();
+      allCharts.forEach(c => {
+        const active = c.getActiveElements();
+        if (active.length === 0 || active[0].index !== dataIndex) {
+          c.setActiveElements([{ datasetIndex: 0, index: dataIndex }]);
+          c.tooltip.setActiveElements([{ datasetIndex: 0, index: dataIndex }]);
+          c.update('none');
+        }
+      });
+    }
+    // Prevent default to stop scrolling/panning when touching the chart
+    if (e.cancelable) e.preventDefault();
+  };
+
+  chartsWrapper.ontouchstart = handleTouch;
+  chartsWrapper.ontouchmove = handleTouch;
+  chartsWrapper.ontouchend = () => {
+    // Optionally hide or keep crosshair
+  };
+
   chartsWrapper.onmouseleave = () => {
     if (rafId) {
       cancelAnimationFrame(rafId);
@@ -177,6 +218,8 @@ async function loadWeather(query) {
     requestAnimationFrame(() => {
       setTimeout(() => {
         updateContinuousLines(weatherData.hourly, weatherData.utc_offset_seconds);
+        // Initialize viewport preview
+        initViewportPreview('forecast-container', 'viewport-handle', 'preview-sparkline', weatherData.hourly);
       }, 100);
     });
 
