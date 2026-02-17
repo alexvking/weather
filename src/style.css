@@ -440,4 +440,46 @@ body {
     gap: 0.25rem;
     justify-content: space-between;
   }
+
+  /* Ultra-Dense Mode Overrides (Mobile Only) */
+  .ultra-dense .app-header {
+    display: none !important;
+  }
+
+  .ultra-dense .forecast-container {
+    height: calc(100vh - 50px);
+    /* Only account for minimap */
+    padding-bottom: 50px;
+    padding-top: 0;
+  }
+
+  .ultra-dense .day-card {
+    padding: 0.1rem 0;
+    font-size: 0.65rem;
+    height: 70px;
+  }
+
+  .ultra-dense .weather-icon-container svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ultra-dense .weather-label,
+  .ultra-dense .precip-summary {
+    display: none !important;
+  }
+
+  .ultra-dense .chart-container {
+    height: 200px;
+    /* High-density rich Y-axis */
+  }
+
+  .ultra-dense .chart-container:first-of-type {
+    height: 220px;
+    /* Temperature gets extra prominence */
+  }
+
+  .ultra-dense .charts-wrapper {
+    padding: 0.25rem 0;
+  }
 }
